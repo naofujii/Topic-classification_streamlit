@@ -7,8 +7,9 @@ st.set_page_config(layout="wide")
 
 st.title('口コミのトピック分類')
 
-if 'count' not in st.session_state:
-    st.session_state['count'] = -1
+def create_csv():
+    df_review_random_normal.to_csv(f'test_data_streamlit/{target_product}_{ver}.csv', index_col=0)
+    
 
 with st.form("version_form"):
     target_product = st.selectbox(
@@ -18,7 +19,7 @@ with st.form("version_form"):
     
     ver = st.text_input("バージョンを入力してください")
    
-    st.form_submit_button('更新')
+    st.form_submit_button('更新', create_csv)
 
 df_review_random_normal = pd.read_csv(f'test_data_streamlit/{target_product}.csv', index_col=0)
 
@@ -63,29 +64,12 @@ with col2:
 with col1:
     st.subheader("口コミ本文")
     
-    # target_product = st.selectbox(
-    #     "入力する製品を選んでください",
-    #     ['皮脂テカリ防止下地_450','保湿力スキンケア下地_450','マットシフォン UVホワイトニングベースN_450']
-    # )
-
-    # df_review = pd.read_csv(f'data/df_{target_product}.csv', index_col=0)
-    
-    # # レビュー450件の中から34件ランダムに取得
-    # random.seed(0)
-    # random_list = random.sample(range(len(df_review)), k=34)
-    # random_list.sort()
-    
     if count != None:
         idx = random_list[count+1]
         
         review = df_review_random.loc[count+1,'本文']
         st.write(f'{count+1}.レビュー番号{idx}:\n\n{review}')
-        
-    st.write('\n\n\n')
     
-    # df_review_random = df_review.iloc[random_list][['本文','キーワード']]
-    # df_review_random = pd.read_csv(f'実行結果/0906/test_data_streamlit/{target_product}_{ver}.csv', index_col=0)
-    # st.dataframe(df_review_random,  width=1200, height=1300)
     st.table(df_review_random)
 
         
