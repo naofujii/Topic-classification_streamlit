@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 st.title('口コミのトピック分類')
 
 def create_csv():
-    df_review_random_normal.to_csv(f'test_data_streamlit/{target_product}_{ver}.csv', index_col=0)
+    df_review_random_normal.to_csv(f'test_data_streamlit/{target_product}_{ver}.csv')
     df_review_random = df_review_random_normal
     
 
@@ -68,7 +68,10 @@ with col1:
     if count != None:
         idx = random_list[count+1]
         
-        review = df_review_random.loc[count+1,'本文']
+        try:
+            review = df_review_random.loc[count+1,'本文']
+        except:
+            st.stop()
         st.write(f'{count+1}.レビュー番号{idx}:\n\n{review}')
     
     st.table(df_review_random)
