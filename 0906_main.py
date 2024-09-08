@@ -5,13 +5,10 @@ import streamlit as st
     
 st.set_page_config(layout="wide")
 
-save_path =  "/Users/naofu/OneDrive/Nao/GraduationProject/Topic-classification_streamlit"
-
     
 st.title('口コミのトピック分類')
 
 def create_csv():
-    df_review_random_normal.to_csv(f'{save_path}/test_data_streamlit/{target_product}_{ver}.csv')
     df_review_random = df_review_random_normal
     
 
@@ -61,11 +58,26 @@ with col2:
     if submitted:
         if count != None:
             df_review_random.at[count, 'トピック'] = str(options)
-            df_review_random.to_csv(f'{save_path}/test_data_streamlit/{target_product}_{ver}.csv')
+            df_review_random.to_csv(f'./test_data_streamlit/{target_product}_{ver}.csv')
         
     
     
 with col1:
+    
+    @st.cache_data
+    def convert_df(df):
+        # IMPORTANT: Cache the conversion to prevent computation on every rerun
+        return df.to_csv().encode("utf-8")
+
+    csv = convert_df(df_review_random)
+
+    st.download_button(
+        label="Download",
+        data=csv,
+        file_name=f'{target_product}_{ver}.csv',
+        mime="text/csv",
+    )
+    
     st.subheader("口コミ本文")
     
     if count != None:
@@ -77,7 +89,7 @@ with col1:
             st.stop()
         st.write(f'{count+1}.レビュー番号{idx}:\n\n{review}')
     
-    st.dataframe(df_review_random, height=1200, width=1300)
+    st.table(df_review_random)
 
         
 
