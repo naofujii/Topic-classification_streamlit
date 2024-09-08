@@ -5,7 +5,7 @@ import streamlit as st
     
 st.set_page_config(layout="wide")
 
-save_path = "\Users\naofu\OneDrive\Nao\GraduationProject\Topic-classification_streamlit"
+save_path =  "/Users/naofu/OneDrive/Nao/GraduationProject/Topic-classification_streamlit"
 
     
 st.title('口コミのトピック分類')
