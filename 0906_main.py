@@ -9,6 +9,7 @@ st.title('口コミのトピック分類')
 
 def create_csv():
     df_review_random_normal.to_csv(f'test_data_streamlit/{target_product}_{ver}.csv', index_col=0)
+    df_review_random = df_review_random_normal
     
 
 with st.form("version_form"):
