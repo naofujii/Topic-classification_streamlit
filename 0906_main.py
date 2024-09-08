@@ -5,6 +5,18 @@ import streamlit as st
     
 st.set_page_config(layout="wide")
 
+import os
+st.write(os.getcwd())  # 現在のディレクトリを出力
+
+with open('output.csv', 'w') as f:
+    f.write('Test data')  # テストファイルを作成
+
+# ファイルが保存されたか確認
+if os.path.exists('output.csv'):
+    st.write("File saved successfully.")
+else:
+    st.write("File not found.")
+    
 st.title('口コミのトピック分類')
 
 def create_csv():
