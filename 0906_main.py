@@ -19,7 +19,7 @@ with st.form("version_form"):
     
     ver = st.text_input("バージョンを入力してください")
    
-    st.form_submit_button('更新', create_csv)
+    st.form_submit_button('更新', on_click=create_csv)
 
 df_review_random_normal = pd.read_csv(f'test_data_streamlit/{target_product}.csv', index_col=0)
 
