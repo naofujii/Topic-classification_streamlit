@@ -27,7 +27,7 @@ df_review_random_normal = pd.read_csv(f'./test_data_streamlit/{target_product}.c
 
 random_list = list(pd.read_csv(f'./test_data_streamlit/random_list.csv',index_col=0)['0'])
     
-if ver = "":
+if ver == "":
     st.warning('バージョンを入力してください')
     
 st.write('現在のバージョン：', ver)
