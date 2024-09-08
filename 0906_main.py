@@ -5,22 +5,13 @@ import streamlit as st
     
 st.set_page_config(layout="wide")
 
-import os
-st.write(os.getcwd())  # 現在のディレクトリを出力
+save_path = "\Users\naofu\OneDrive\Nao\GraduationProject\Topic-classification_streamlit"
 
-with open('output.csv', 'w') as f:
-    f.write('Test data')  # テストファイルを作成
-
-# ファイルが保存されたか確認
-if os.path.exists('output.csv'):
-    st.write("File saved successfully.")
-else:
-    st.write("File not found.")
     
 st.title('口コミのトピック分類')
 
 def create_csv():
-    df_review_random_normal.to_csv(f'./test_data_streamlit/{target_product}_{ver}.csv')
+    df_review_random_normal.to_csv(f'{save_path}/test_data_streamlit/{target_product}_{ver}.csv')
     df_review_random = df_review_random_normal
     
 
@@ -34,23 +25,23 @@ with st.form("version_form"):
    
     st.form_submit_button('更新', on_click=create_csv)
 
-df_review_random_normal = pd.read_csv(f'./test_data_streamlit/{target_product}.csv', index_col=0)
+df_review_random_normal = pd.read_csv(f'{save_path}/test_data_streamlit/{target_product}.csv', index_col=0)
 
-random_list = list(pd.read_csv('./test_data_streamlit/random_list.csv',index_col=0)['0'])
+random_list = list(pd.read_csv(f'{save_path}/test_data_streamlit/random_list.csv',index_col=0)['0'])
     
 
 st.write('現在のバージョン：', ver)
 col1, col2 = st.columns([2, 1], gap='large')
 
 try:
-    df_review_random = pd.read_csv(f'./test_data_streamlit/{target_product}_{ver}.csv', index_col=0)
+    df_review_random = pd.read_csv(f'{save_path}/test_data_streamlit/{target_product}_{ver}.csv', index_col=0)
 except FileNotFoundError:
     col1.warning('バージョンを入力してください')
 
 
 with col2:
     st.subheader("選択項目")
-    df_topic = pd.read_csv('./test_data_streamlit/トピックリスト.csv',index_col=0)
+    df_topic = pd.read_csv(f'{save_path}/test_data_streamlit/トピックリスト.csv',index_col=0)
     
     with st.form("topic_form", clear_on_submit=False): 
         submitted = st.form_submit_button("Submit")
@@ -70,7 +61,7 @@ with col2:
     if submitted:
         if count != None:
             df_review_random.at[count, 'トピック'] = str(options)
-            df_review_random.to_csv(f'./test_data_streamlit/{target_product}_{ver}.csv')
+            df_review_random.to_csv(f'{save_path}/test_data_streamlit/{target_product}_{ver}.csv')
         
     
     
