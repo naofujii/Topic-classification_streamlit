@@ -39,7 +39,7 @@ with st.form("version_form"):
 
 # with st.expander("続きから作成する"):
 with st.form("続きから作成する"):
-    uploaded_file = st.file_uploader("fileを追加してください")
+    uploaded_file = st.file_uploader("ファイルを追加してください")
     btn_uploaded = st.form_submit_button('続きから作成', on_click=uploaded_csv)
     
 random_list = list(pd.read_csv(f'./test_data_streamlit/random_list.csv',index_col=0)['0'])
@@ -62,7 +62,7 @@ def create_right_col():
             list(df_topic['トピック'])
         ) 
         
-        submitted = st.form_submit_button("Submit")
+        submitted = st.form_submit_button("追加")
     
                                                                                                                                                                                                                                                             
 
@@ -93,14 +93,22 @@ def create_left_col():
         idx = random_list[st.session_state["count"]+1]
         review = st.session_state["df_review_random"].loc[st.session_state["count"]+1,'本文']
         st.write(f'{st.session_state["count"]+1}.レビュー番号{idx}:\n\n{review}')
+<<<<<<< HEAD
+=======
+
+>>>>>>> dca2cd0 (update responsicve)
 
 
 if option_device == "スマートフォン":
     create_left_col()
     create_right_col()
+<<<<<<< HEAD
     if ver !="" or uploaded_file is not None:
         st.table(st.session_state["df_review_random"])
     
+=======
+    st.table(st.session_state["df_review_random"])
+>>>>>>> dca2cd0 (update responsicve)
     
 else:
     col1, col2 = st.columns([2, 1], gap='large')
@@ -108,5 +116,9 @@ else:
         create_right_col()
     with col1:
         create_left_col()
+<<<<<<< HEAD
         if ver !="" or uploaded_file is not None:
             st.table(st.session_state["df_review_random"])
+=======
+        st.table(st.session_state["df_review_random"])
+>>>>>>> dca2cd0 (update responsicve)
