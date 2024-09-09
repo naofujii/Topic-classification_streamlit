@@ -49,24 +49,25 @@ if ver =="" and uploaded_file is None:
     
 
 df_topic = pd.read_csv(f'./test_data_streamlit/トピックリスト.csv',index_col=0)
+    
+ 
+def create_count_form():       
+    with st.form("count_form", clear_on_submit=False):        
+        st.session_state["count"] = st.number_input("番号を合わせてください", min_value=0, max_value=34, value="min") 
+        btn_count = st.form_submit_button("決定")
 
-def create_right_col():
-    st.subheader("選択項目")
-        
-    with st.form("topic_form", clear_on_submit=False):        
-        st.session_state["count"] = st.number_input("番号を合わせてください", min_value=-1, max_value=34, value="min") 
-
-                  
+def create_topic_form():            
+    with st.form("topic_form", clear_on_submit=True):                
         options = st.multiselect(
             "トピックを選択してください",
             list(df_topic['トピック'])
         ) 
         
-        submitted = st.form_submit_button("追加")
+        btn_topic = st.form_submit_button("追加")
     
                                                                                                                                                                                                                                                             
 
-    if submitted:
+    if btn_topic:
         st.session_state["df_review_random"].at[st.session_state["count"], 'トピック'] = str(options)
         st.session_state["df_review_random"].to_csv(f'./test_data_streamlit/{target_product}_{ver}.csv')
     
@@ -86,17 +87,17 @@ def create_right_col():
         
         
 def create_left_col():
-    st.subheader("口コミ本文")
-    
-    # try:
     if ver !="" or uploaded_file is not None:
-        idx = random_list[st.session_state["count"]+1]
-        review = st.session_state["df_review_random"].loc[st.session_state["count"]+1,'本文']
-        st.write(f'{st.session_state["count"]+1}.レビュー番号{idx}:\n\n{review}')
+        idx = random_list[st.session_state["count"]]
+        review = st.session_state["df_review_random"].loc[st.session_state["count"],'本文']
+        st.write(f'{st.session_state["count"]}.レビュー番号{idx}:\n\n{review}')
 
 if option_device == "スマートフォン":
+    st.subheader("口コミ本文")
+    create_count_form()   
     create_left_col()
-    create_right_col()
+    st.subheader("選択項目")
+    create_topic_form()
     if ver !="" or uploaded_file is not None:
         st.table(st.session_state["df_review_random"])
     
@@ -104,8 +105,11 @@ if option_device == "スマートフォン":
 else:
     col1, col2 = st.columns([2, 1], gap='large')
     with col2:
-        create_right_col()
+        st.subheader("選択項目")
+        create_count_form()   
+        create_topic_form()
     with col1:
+        st.subheader("口コミ本文")
         create_left_col()
         if ver !="" or uploaded_file is not None:
             st.table(st.session_state["df_review_random"])
