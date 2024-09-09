@@ -58,10 +58,15 @@ def create_count_form():
 
 def create_topic_form():            
     with st.form("topic_form", clear_on_submit=True):                
-        options = st.multiselect(
-            "トピックを選択してください",
-            list(df_topic['トピック'])
-        ) 
+        # options = st.multiselect(
+        #     "トピックを選択してください",
+        #     list(df_topic['トピック'])
+        # ) 
+        
+        options = []
+        for option in list(df_topic['トピック']):
+            if st.checkbox(option):
+                options.append(option)
         
         btn_topic = st.form_submit_button("追加")
     
