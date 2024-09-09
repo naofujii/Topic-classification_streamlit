@@ -54,7 +54,7 @@ df_topic = pd.read_csv(f'./test_data_streamlit/トピックリスト.csv',index_
 def create_count_form():       
     with st.form("count_form", clear_on_submit=False):        
         st.session_state["count"] = st.number_input("番号を合わせてください", min_value=0, max_value=34, value="min") 
-        btn_count = st.form_submit_button("決定")
+        btn_count = st.form_submit_button("設定")
 
 def create_topic_form():            
     with st.form("topic_form", clear_on_submit=True):                
@@ -63,12 +63,14 @@ def create_topic_form():
         #     list(df_topic['トピック'])
         # ) 
         
+        btn_topic = st.form_submit_button("追加")
+        
         options = []
         for option in list(df_topic['トピック']):
             if st.checkbox(option):
                 options.append(option)
         
-        btn_topic = st.form_submit_button("追加")
+
     
                                                                                                                                                                                                                                                             
 
@@ -118,3 +120,4 @@ else:
         create_left_col()
         if ver !="" or uploaded_file is not None:
             st.table(st.session_state["df_review_random"])
+
