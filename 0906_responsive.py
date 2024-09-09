@@ -75,9 +75,8 @@ def create_right_col():
         # IMPORTANT: Cache the conversion to prevent computation on every rerun
         return df.to_csv().encode("utf-8")
 
-    csv = convert_df(st.session_state["df_review_random"])
-
     if ver !="" or uploaded_file is not None:
+        csv = convert_df(st.session_state["df_review_random"])
         btn_save_csv = st.download_button(
             label="入力したデータを保存する",
             data=csv,
@@ -94,12 +93,14 @@ def create_left_col():
         idx = random_list[st.session_state["count"]+1]
         review = st.session_state["df_review_random"].loc[st.session_state["count"]+1,'本文']
         st.write(f'{st.session_state["count"]+1}.レビュー番号{idx}:\n\n{review}')
-        st.table(st.session_state["df_review_random"])
 
 
 if option_device == "スマートフォン":
-    create_right_col()
     create_left_col()
+    create_right_col()
+    if ver !="" or uploaded_file is not None:
+        st.table(st.session_state["df_review_random"])
+    
     
 else:
     col1, col2 = st.columns([2, 1], gap='large')
@@ -107,3 +108,5 @@ else:
         create_right_col()
     with col1:
         create_left_col()
+        if ver !="" or uploaded_file is not None:
+            st.table(st.session_state["df_review_random"])

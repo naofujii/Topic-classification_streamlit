@@ -43,9 +43,7 @@ with col2:
     st.subheader("選択項目")
     df_topic = pd.read_csv(f'./test_data_streamlit/トピックリスト.csv',index_col=0)
     
-    with st.form("topic_form", clear_on_submit=False): 
-        submitted = st.form_submit_button("Submit")
-        
+    with st.form("topic_form", clear_on_submit=False):        
         count = st.number_input("番号を入力してください", min_value=0, max_value=34, value="min") 
 
                   
@@ -53,6 +51,8 @@ with col2:
             "トピックを選択してください",
             list(df_topic['トピック'])
         ) 
+        
+        submitted = st.form_submit_button("Submit")
         
         if submitted:
             st.write("選ばれたトピック:", list(options))
@@ -70,12 +70,13 @@ with col2:
 
     csv = convert_df(df_review_random)
 
-    st.download_button(
-        label="入力したデータを保存する",
-        data=csv,
-        file_name=f'{target_product}_{ver}.csv',
-        mime="text/csv",
-    )
+    if ver !=""
+        btn_save_csv = st.download_button(
+            label="入力したデータをCSVとして保存する",
+            data=csv,
+            file_name=f'{target_product}_{ver}.csv',
+            mime="text/csv",
+        )
     
     
     
@@ -83,13 +84,24 @@ with col1:
     st.subheader("口コミ本文")
     
     if count != None:
-        idx = random_list[count+1]
-        
+        if btn_save_csv:
+            idx = random_list[count+1]
+            
+        else:
+            count=-1
+            idx = random_list[0]
+            
         try:
             review = df_review_random.loc[count+1,'本文']
         except:
             st.stop()
         st.write(f'{count+1}.レビュー番号{idx}:\n\n{review}')
+        
+        
+            
+            
+        
+        
     
     st.table(df_review_random)
 
