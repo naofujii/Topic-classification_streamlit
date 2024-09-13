@@ -97,13 +97,6 @@ def create_topic_form():
         st.session_state["df_review_random"].at[st.session_state["count"],  "低評価"] = str(low_eval)
         st.session_state["df_review_random"].at[st.session_state["count"], "不明"] = str(unknown_eval)
         
-        # 更新されたデータフレームを表示
-        st.write("高評価:", high_eval)
-        st.write("低評価:",low_eval)
-        st.write("不明:", unknown_eval)
-        
-
-
 
            
     # with st.form("topic_form", clear_on_submit=True):                

@@ -44,7 +44,7 @@ with col2:
     df_topic = pd.read_csv(f'./test_data_streamlit/トピックリスト.csv',index_col=0)
     
     with st.form("topic_form", clear_on_submit=False):        
-        count = st.number_input("番号を入力してください", min_value=0, max_value=34, value="min") 
+        count = st.number_input("番号を入力してください", min_value=0, max_value=100, value="min") 
 
                   
         options = st.multiselect(
@@ -96,11 +96,6 @@ with col1:
         except:
             st.stop()
         st.write(f'{count+1}.レビュー番号{idx}:\n\n{review}')
-        
-        
-            
-            
-        
         
     
     st.table(df_review_random)
