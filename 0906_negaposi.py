@@ -53,7 +53,7 @@ df_topic = pd.read_csv(f'./test_data_streamlit_negaposi/トピックリスト.cs
  
 def create_count_form():       
     with st.form("count_form", clear_on_submit=False):        
-        st.session_state["count"] = st.number_input("番号を合わせてください", min_value=0, max_value=34, value="min") 
+        st.session_state["count"] = st.number_input("番号を合わせてください", min_value=0, max_value=100, value="min") 
         btn_count = st.form_submit_button("設定")
 
 # 各トピックに対して「高評価」「低評価」「不明」を保持するデータフレームを作成
