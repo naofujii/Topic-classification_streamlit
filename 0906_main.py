@@ -70,7 +70,7 @@ with col2:
 
     csv = convert_df(df_review_random)
 
-    if ver !=""
+    if ver !="":
         btn_save_csv = st.download_button(
             label="入力したデータをCSVとして保存する",
             data=csv,
