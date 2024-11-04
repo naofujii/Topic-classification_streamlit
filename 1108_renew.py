@@ -56,20 +56,15 @@ df_topic = pd.read_csv(f'./test_data_streamlit_renew/トピックリスト.csv',
 def create_count_form():       
     with st.form("count_form", clear_on_submit=False):        
         st.session_state["count"] = st.number_input("番号を合わせてください", min_value=0, max_value=100, value="min") 
+        
+        # 選択されたレビューのトピックを取得
+        selected_review = df_test[df_test.index == st.session_state["count"]].iloc[0]
+        st.session_state["selected_topics"] = selected_review["トピック"]
+        
         btn_count = st.form_submit_button("設定")
 
-df_test = pd.read_csv('./test_data_streamlit_renew/皮脂テカリ防止下地_450_トピック_100_1(改).csv',index_col=0)
+df_test = st.session_state["df_review_random"]
 
-# 選択されたレビューのトピックを取得
-selected_review = df_test[df_test["レビュー番号"] == st.session_state["count"]].iloc[0]
-initial_topics = selected_review["トピック"]
-
-
-# 編集用のデータフレームを作成
-df_clf = pd.DataFrame({
-    "トピック": initial_topics,
-    "該当トピック": [False] * len(initial_topics)
-})
 
 # 該当トピックの送信フォーム
 def create_topic_form(): 
@@ -79,23 +74,24 @@ def create_topic_form():
         # フォームの送信ボタン
         btn_topic = st.form_submit_button(label='送信')
         
+        all_topics = list(df_topic['トピック'])
+        # 編集用のデータフレームを作成
+        df_clf = pd.DataFrame({
+            "トピック": all_topics,
+            "該当トピック": [topic in st.session_state["selected_topics"] for topic in all_topics]}
+            )
+        
         # 編集可能なデータフレームの表示（該当トピック・低評価・不明の選択）
         edited_df = st.data_editor(df_clf)
 
 
     # フォームが送信された場合の処理
     if btn_topic:
-        # 該当トピック・低評価・不明リストを初期化
-        applicable_topic = []
-        
-        # 各トピックに対する評価を判定し、リストに追加
-        for index, row in edited_df.iterrows():
-            if row["該当トピック"]:
-                applicable_topic.append(row["トピック"])
-
+        # 該当トピックのみをリストに追加
+        applicable_topic = edited_df.loc[edited_df["該当トピック"], "トピック"].tolist()
         
         # 選択された本文に対して更新
-        st.session_state["df_review_random"].at[st.session_state["count"], "該当トピック"] = str(applicable_topic)
+        st.session_state["df_review_random"].at[st.session_state["count"], "トピック"] = str(applicable_topic)
         
 
            
@@ -168,13 +164,13 @@ else:
 
 
 
-# データフレームの作成
-df_clf = pd.DataFrame(
-    [
-       {"トピック": topic, "該当トピック": False}
-        for topic in list(df_topic['トピック'])
-    ]
-)
+# # データフレームの作成
+# df_clf = pd.DataFrame(
+#     [
+#        {"トピック": topic, "該当トピック": False}
+#         for topic in list(df_topic['トピック'])
+#     ]
+# )
 
 # # フォームの開始
 # with st.form(key='form1'):
