@@ -32,7 +32,7 @@ with st.form("version_form"):
             "入力する製品を選んでください",
             ['皮脂テカリ防止下地_450','保湿力スキンケア下地_450','マットシフォン UVホワイトニングベースN_450']
         )
-    df_review_random_normal = pd.read_csv(f'./test_data_streamlit_negaposi/{target_product}.csv', index_col=0)
+    df_review_random_normal = pd.read_csv(f'./test_data_streamlit_renew/{target_product}.csv', index_col=0)
     
     ver = st.text_input("バージョンを入力してください")
    
@@ -44,13 +44,13 @@ with st.form("続きから作成する"):
     uploaded_file = st.file_uploader("ファイルを追加してください")
     btn_uploaded = st.form_submit_button('続きから作成', on_click=uploaded_csv)
     
-random_list = list(pd.read_csv(f'./test_data_streamlit_negaposi/random_list_100.csv',index_col=0)['0'])
+random_list = list(pd.read_csv(f'./test_data_streamlit_renew/random_list_100.csv',index_col=0)['0'])
     
 if ver =="" and uploaded_file is None:
     st.warning('バージョンを入力するか、ファイルをアップロードしてください')
     
 
-df_topic = pd.read_csv(f'./test_data_streamlit_negaposi/トピックリスト.csv',index_col=0)
+df_topic = pd.read_csv(f'./test_data_streamlit_renew/トピックリスト.csv',index_col=0)
     
 # 番号選択フォーム 
 def create_count_form():       
