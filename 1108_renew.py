@@ -136,6 +136,7 @@ def create_left_col():
         idx = random_list[st.session_state["count"]]
         review = st.session_state["df_review_random"].loc[st.session_state["count"],'本文']
         st.write(f'{st.session_state["count"]}.レビュー番号{idx}:\n\n{review}')
+        st.write(st.session_state["df_review_random"].loc[st.session_state["count"],'トピック'])
 
 if option_device == "スマートフォン":
     st.subheader("口コミ本文")
